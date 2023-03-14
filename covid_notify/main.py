@@ -31,17 +31,18 @@ for td in soup.find_all('tbody')[0].find_all('tr'):
   for item in td.find_all('td'):
     list1.append(item.get_text())
     count+=1
-    if(count==5):
-      print(list1)
+  
+    if(count==6):
+   
       DataList.append(list1)
-    #   print(DataList)
+ 
       list1=[]
       count=0
 
-print(len(DataList))
 
-# for item in DataList:
-#   print(item)
+
+for item in DataList:
+  print(item)
 
 States=[]
 for item in DataList[0:5]:
@@ -49,13 +50,14 @@ for item in DataList[0:5]:
   States.append(item[1])
 
 
-# print(States)
+
   
 for item in DataList:
   if item[1] in States:
     nTitle='Cases of covid-19'
-    nText=f"Sno.{item[0]}\n State:{item[1]}\n"
+    nText=f"Sno.{item[0]}\n State:{item[1]}\n Confirmed Cases:{item[2]}\n Active Cases:{item[3]}\n Cured/Discharged:{item[4]}\n Deaths:{item[5]} "
     notify(nTitle,nText)
+    time.sleep(2)
 
 
 
