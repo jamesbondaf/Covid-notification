@@ -1,21 +1,22 @@
 import subprocess
 import requests
 from bs4 import BeautifulSoup
+import time
 CMD = '''
 on run argv
   display notification (item 2 of argv) with title (item 1 of argv) 
 end run
 '''
 
-def notify(title, text, country):
-  subprocess.call(['osascript', '-e', CMD, title, text, country])
+def notify(title, text):
+  subprocess.call(['osascript', '-e', CMD, title, text])
 
 def getData(url):
   r=requests.get(url)
   return r.text
 
 # Example uses:
-notify("james bond", "Heres an alert", "INDIA")
+# notify("james bond", "Heres an alert")
 
 myhtmlData=getData("https://prsindia.org/covid-19/cases")
 
@@ -39,8 +40,22 @@ for td in soup.find_all('tbody')[0].find_all('tr'):
 
 print(len(DataList))
 
+# for item in DataList:
+#   print(item)
+
+States=[]
+for item in DataList[0:5]:
+  
+  States.append(item[1])
+
+
+# print(States)
+  
 for item in DataList:
-  print(item)
+  if item[1] in States:
+    nTitle='Cases of covid-19'
+    nText=f"Sno.{item[0]}\n State:{item[1]}\n"
+    notify(nTitle,nText)
 
 
 
